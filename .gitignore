@@ -1,0 +1,38 @@
+# Dependency directories
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+service-abonnements/node_modules/
+service-billetterie/node_modules/
+service-billetterie/logs/
+logs/
+
+# Environment files
+.env
+backend/.env
+service-abonnements/.env
+service-billetterie/.env
+frontend/.env
+
+# Build outputs
+dist/
+build/
+.cache/
+coverage/
+npm-debug.log*
+
+# Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads temp
+backend/uploads/

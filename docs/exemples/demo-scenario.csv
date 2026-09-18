@@ -1,0 +1,8 @@
+nom,prenom,email,telephone,role
+Bousso,Fallou,bayegalassbousso1990+agent@gmail.com,+221771000001,Agent
+Ndiaye,Seynabou,seynabou.ndiaye@demo-billetterie.com,+221771000002,Agent
+Diagne,Ousmane,ousmane.diagne@demo-billetterie.com,+221771000003,Client
+Sy,Abdoulaye,abdoulaye.sy@billetterie-test.com,+221771000004,Client
+Faye,Malick,adresse-sans-arobase,+221771000005,Client
+Diallo,,mamadou.diallo@demo-billetterie.com,+221771000006,Client
+Kane,Rokhaya,rokhaya.kane@demo-billetterie.com,+221771000007,Superviseur

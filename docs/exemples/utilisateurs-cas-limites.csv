@@ -1,0 +1,8 @@
+nom,prenom,email,telephone,role
+Mbaye,Seynabou,seynabou.mbaye@billetterie-test.com,+221771234511,Client
+Diop,Aminata,aminata.diop@billetterie-test.com,+221771234512,Agent
+Faye,Malick,email-invalide-sans-arobase,+221771234513,Client
+Diallo,,mamadou.diallo@billetterie-test.com,+221771234514,Client
+Kane,Rokhaya,rokhaya.kane@billetterie-test.com,+221771234515,Superviseur
+Wade,Lamine,lamine.wade@billetterie-test.com,,Client
+Niang,Astou,astou.niang@billetterie-test.com,+221771234517,Agent

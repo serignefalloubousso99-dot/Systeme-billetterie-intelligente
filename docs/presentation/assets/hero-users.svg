@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#1E40AF"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <circle cx="650" cy="120" r="190" fill="#3B82F6" opacity="0.5"/>
+  <circle cx="90" cy="710" r="160" fill="#60A5FA" opacity="0.3"/>
+  <circle cx="700" cy="650" r="90" fill="#60A5FA" opacity="0.25"/>
+
+  <!-- fenêtre navigateur -->
+  <rect x="120" y="170" width="560" height="430" rx="22" fill="#FFFFFF"/>
+  <path d="M120 234 h560 v-42 a22 22 0 0 0 -22 -22 h-516 a22 22 0 0 0 -22 22 z" fill="#EFF6FF"/>
+  <circle cx="162" cy="202" r="9" fill="#FCA5A5"/>
+  <circle cx="192" cy="202" r="9" fill="#FCD34D"/>
+  <circle cx="222" cy="202" r="9" fill="#6EE7B7"/>
+  <rect x="260" y="188" width="340" height="28" rx="14" fill="#DBEAFE"/>
+
+  <!-- ligne 1 : admin -->
+  <circle cx="185" cy="300" r="22" fill="#1E3A8A"/>
+  <text x="185" y="308" font-family="Segoe UI, sans-serif" font-size="18" fill="#FFFFFF" text-anchor="middle">AD</text>
+  <rect x="228" y="284" width="200" height="14" rx="7" fill="#1E293B" opacity="0.75"/>
+  <rect x="228" y="304" width="130" height="10" rx="5" fill="#94A3B8"/>
+  <rect x="480" y="286" width="100" height="26" rx="13" fill="#DBEAFE"/>
+  <text x="530" y="303" font-family="Segoe UI, sans-serif" font-size="13" fill="#1D4ED8" text-anchor="middle">Actif</text>
+  <circle cx="612" cy="299" r="16" fill="#EFF6FF"/>
+  <path d="M605 299 l5 5 l9 -10" stroke="#10B981" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- ligne 2 : agent -->
+  <circle cx="185" cy="378" r="22" fill="#3B82F6"/>
+  <text x="185" y="386" font-family="Segoe UI, sans-serif" font-size="18" fill="#FFFFFF" text-anchor="middle">AG</text>
+  <rect x="228" y="362" width="230" height="14" rx="7" fill="#1E293B" opacity="0.75"/>
+  <rect x="228" y="382" width="150" height="10" rx="5" fill="#94A3B8"/>
+  <rect x="480" y="364" width="100" height="26" rx="13" fill="#FEF3C7"/>
+  <text x="530" y="381" font-family="Segoe UI, sans-serif" font-size="13" fill="#B45309" text-anchor="middle">Bloqué</text>
+  <circle cx="612" cy="377" r="16" fill="#EFF6FF"/>
+  <path d="M605 377 h14 M605 372 h10 M605 382 h10" stroke="#64748B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- ligne 3 : client -->
+  <circle cx="185" cy="456" r="22" fill="#60A5FA"/>
+  <text x="185" y="464" font-family="Segoe UI, sans-serif" font-size="18" fill="#FFFFFF" text-anchor="middle">CL</text>
+  <rect x="228" y="440" width="190" height="14" rx="7" fill="#1E293B" opacity="0.75"/>
+  <rect x="228" y="460" width="120" height="10" rx="5" fill="#94A3B8"/>
+  <rect x="480" y="442" width="100" height="26" rx="13" fill="#DBEAFE"/>
+  <text x="530" y="459" font-family="Segoe UI, sans-serif" font-size="13" fill="#1D4ED8" text-anchor="middle">Actif</text>
+  <circle cx="612" cy="455" r="16" fill="#EFF6FF"/>
+  <path d="M605 455 l5 5 l9 -10" stroke="#10B981" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- barre de statistiques -->
+  <rect x="150" y="512" width="500" height="58" rx="14" fill="#F0F6FF" stroke="#DBEAFE" stroke-width="2"/>
+  <text x="185" y="536" font-family="Segoe UI, sans-serif" font-size="12" fill="#64748B">Total</text>
+  <text x="185" y="556" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#1E3A8A">11</text>
+  <text x="300" y="536" font-family="Segoe UI, sans-serif" font-size="12" fill="#64748B">Actifs</text>
+  <text x="300" y="556" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#10B981">1</text>
+  <text x="415" y="536" font-family="Segoe UI, sans-serif" font-size="12" fill="#64748B">Bloqués</text>
+  <text x="415" y="556" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#B45309">10</text>
+  <text x="545" y="536" font-family="Segoe UI, sans-serif" font-size="12" fill="#64748B">Supprimés</text>
+  <text x="545" y="556" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#64748B">0</text>
+
+  <!-- badge cadenas (auth / securite) -->
+  <circle cx="590" cy="640" r="70" fill="#1E3A8A"/>
+  <rect x="560" y="638" width="60" height="46" rx="8" fill="#DBEAFE"/>
+  <path d="M572 638 v-18 a18 18 0 0 1 36 0 v18" stroke="#DBEAFE" stroke-width="8" fill="none"/>
+  <circle cx="590" cy="660" r="7" fill="#1E3A8A"/>
+</svg>

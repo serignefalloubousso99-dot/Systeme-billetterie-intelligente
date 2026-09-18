@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#1E40AF"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <circle cx="650" cy="120" r="190" fill="#3B82F6" opacity="0.5"/>
+  <circle cx="90" cy="710" r="160" fill="#60A5FA" opacity="0.3"/>
+  <circle cx="700" cy="650" r="90" fill="#60A5FA" opacity="0.25"/>
+
+  <!-- fenêtre navigateur -->
+  <rect x="120" y="170" width="560" height="430" rx="22" fill="#FFFFFF"/>
+  <path d="M120 234 h560 v-42 a22 22 0 0 0 -22 -22 h-516 a22 22 0 0 0 -22 22 z" fill="#EFF6FF"/>
+  <circle cx="162" cy="202" r="9" fill="#FCA5A5"/>
+  <circle cx="192" cy="202" r="9" fill="#FCD34D"/>
+  <circle cx="222" cy="202" r="9" fill="#6EE7B7"/>
+  <rect x="260" y="188" width="340" height="28" rx="14" fill="#DBEAFE"/>
+
+  <!-- carte formule 1 : ticket simple -->
+  <rect x="150" y="270" width="500" height="76" rx="16" fill="#F0F6FF" stroke="#DBEAFE" stroke-width="2"/>
+  <circle cx="196" cy="308" r="22" fill="#3B82F6"/>
+  <path d="M186 308 h20 M191 300 v16 M201 300 v16" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <rect x="234" y="292" width="180" height="14" rx="7" fill="#1E293B" opacity="0.8"/>
+  <rect x="234" y="312" width="120" height="10" rx="5" fill="#94A3B8"/>
+  <rect x="560" y="292" width="60" height="26" rx="13" fill="#DBEAFE"/>
+  <text x="590" y="309" font-family="Segoe UI, sans-serif" font-size="12" fill="#1D4ED8" text-anchor="middle">500</text>
+
+  <!-- carte formule 2 : limitee (mise en avant, orange) -->
+  <rect x="150" y="358" width="500" height="76" rx="16" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2"/>
+  <circle cx="196" cy="396" r="22" fill="#F97316"/>
+  <text x="196" y="401" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">20</text>
+  <rect x="234" y="380" width="200" height="14" rx="7" fill="#1E293B" opacity="0.8"/>
+  <rect x="234" y="400" width="140" height="10" rx="5" fill="#B45309" opacity="0.7"/>
+  <rect x="560" y="380" width="60" height="26" rx="13" fill="#FFEDD5"/>
+  <text x="590" y="397" font-family="Segoe UI, sans-serif" font-size="11" fill="#C2410C" text-anchor="middle">15k</text>
+
+  <!-- carte formule 3 : illimitee -->
+  <rect x="150" y="446" width="500" height="76" rx="16" fill="#F0F6FF" stroke="#DBEAFE" stroke-width="2"/>
+  <circle cx="196" cy="484" r="22" fill="#1E3A8A"/>
+  <path d="M186 484 a10 6 0 1 1 20 0 a10 6 0 1 1 -20 0" stroke="#FFFFFF" stroke-width="2.5" fill="none"/>
+  <rect x="234" y="468" width="190" height="14" rx="7" fill="#1E293B" opacity="0.8"/>
+  <rect x="234" y="488" width="130" height="10" rx="5" fill="#94A3B8"/>
+  <rect x="560" y="468" width="60" height="26" rx="13" fill="#DBEAFE"/>
+  <text x="590" y="485" font-family="Segoe UI, sans-serif" font-size="11" fill="#1D4ED8" text-anchor="middle">25k</text>
+
+  <!-- barre de statistiques -->
+  <rect x="150" y="540" width="500" height="58" rx="14" fill="#F0F6FF" stroke="#DBEAFE" stroke-width="2"/>
+  <text x="185" y="564" font-family="Segoe UI, sans-serif" font-size="12" fill="#64748B">Actifs</text>
+  <text x="185" y="584" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#10B981">80</text>
+  <text x="300" y="564" font-family="Segoe UI, sans-serif" font-size="12" fill="#64748B">Épuisés</text>
+  <text x="300" y="584" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#B45309">10</text>
+  <text x="430" y="564" font-family="Segoe UI, sans-serif" font-size="12" fill="#64748B">Expirent &lt; 7j</text>
+  <text x="430" y="584" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#DC2626">12</text>
+  <text x="580" y="564" font-family="Segoe UI, sans-serif" font-size="12" fill="#64748B">Voyages</text>
+  <text x="580" y="584" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700" fill="#1E3A8A">1540</text>
+
+  <!-- badge QR (validation / futur Service Billetterie) -->
+  <circle cx="590" cy="660" r="70" fill="#1E3A8A"/>
+  <g transform="translate(560,630)">
+    <rect x="0" y="0" width="24" height="24" rx="3" fill="#DBEAFE"/>
+    <rect x="4" y="4" width="6" height="6" fill="#1E3A8A"/>
+    <rect x="14" y="4" width="6" height="6" fill="#1E3A8A"/>
+    <rect x="4" y="14" width="6" height="6" fill="#1E3A8A"/>
+    <rect x="14" y="14" width="6" height="6" fill="#1E3A8A"/>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+nom,prenom,email,telephone,role
+Diop,Aminata,aminata.diop@billetterie-test.com,+221771234501,Agent
+Ndiaye,Moussa,moussa.ndiaye@billetterie-test.com,+221771234502,Agent
+Fall,Awa,awa.fall@billetterie-test.com,+221771234503,Client
+Sow,Ibrahima,ibrahima.sow@billetterie-test.com,+221771234504,Client
+Ba,Fatou,fatou.ba@billetterie-test.com,+221771234505,Client
+Gueye,Cheikh,cheikh.gueye@billetterie-test.com,+221771234506,Client
+Sarr,Mariama,mariama.sarr@billetterie-test.com,+221771234507,Client
+Camara,Ousmane,ousmane.camara@billetterie-test.com,+221771234508,Agent
+Toure,Khady,khady.toure@billetterie-test.com,+221771234509,Client
+Sy,Abdoulaye,abdoulaye.sy@billetterie-test.com,+221771234510,Administrateur
