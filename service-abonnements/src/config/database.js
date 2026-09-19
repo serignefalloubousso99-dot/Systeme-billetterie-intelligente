@@ -25,6 +25,18 @@ export const sequelize = new Sequelize(
       freezeTableName: true,
       underscored: false,
     },
+    // Les bases MySQL hébergées (Aiven...) imposent une connexion chiffrée.
+    // DB_SSL=true l'active en vérifiant le certificat du serveur ; DB_SSL_CA
+    // fournit le certificat de l'autorité si elle n'est pas publique.
+    dialectOptions:
+      process.env.DB_SSL === 'true'
+        ? {
+            ssl: {
+              rejectUnauthorized: true,
+              ...(process.env.DB_SSL_CA ? { ca: process.env.DB_SSL_CA } : {}),
+            },
+          }
+        : {},
   }
 );
 

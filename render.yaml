@@ -1,0 +1,116 @@
+# Deploiement Render "Blueprint" : decrit en un seul fichier les 3 APIs et la
+# base PostgreSQL. Render construit chaque API depuis son Dockerfile.
+# Les valeurs secretes ne sont PAS ici (sync: false) : elles se saisissent
+# dans le tableau de bord Render, jamais dans Git.
+#
+# Non gere par Render (bases externes) : MongoDB Atlas et MySQL (Aiven).
+# Frontend : deploye a part sur Vercel.
+
+databases:
+  - name: billetterie-postgres
+    databaseName: billetterie_db
+    user: billetterie
+    plan: free
+
+# Variables partagees par les 3 APIs. JWT_SECRET est genere UNE seule fois et
+# reutilise par tous les services : ils doivent tous partager la meme cle pour
+# se faire confiance mutuellement.
+envVarGroups:
+  - name: billetterie-partage
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+
+services:
+  # ---------- Service Utilisateurs (MongoDB Atlas) ----------
+  - type: web
+    name: billetterie-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/status
+    envVars:
+      - fromGroup: billetterie-partage
+      - key: MONGO_URI          # chaine de connexion MongoDB Atlas
+        sync: false
+      - key: FRONTEND_URL       # adresse du frontend Vercel (lien dans les e-mails)
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+
+  # ---------- Service Abonnements (MySQL Aiven) ----------
+  - type: web
+    name: billetterie-abonnements
+    runtime: docker
+    plan: free
+    dockerfilePath: ./service-abonnements/Dockerfile
+    dockerContext: ./service-abonnements
+    healthCheckPath: /api/abonnements/status
+    envVars:
+      - fromGroup: billetterie-partage
+      - key: DB_SYNC            # cree les tables au premier demarrage
+        value: "true"
+      - key: DB_SSL             # les bases MySQL hebergees exigent TLS
+        value: "true"
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_SSL_CA          # certificat de l'autorite (Aiven: ca.pem), optionnel
+        sync: false
+
+  # ---------- Service Billetterie (PostgreSQL Render) ----------
+  - type: web
+    name: billetterie-billetterie
+    runtime: docker
+    plan: free
+    dockerfilePath: ./service-billetterie/Dockerfile
+    dockerContext: ./service-billetterie
+    healthCheckPath: /api/billetterie/status
+    envVars:
+      - fromGroup: billetterie-partage
+      - key: DB_SYNC
+        value: "true"
+      - key: DB_HOST
+        fromDatabase:
+          name: billetterie-postgres
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: billetterie-postgres
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: billetterie-postgres
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: billetterie-postgres
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: billetterie-postgres
+          property: database
+      - key: SERVICE_UTILISATEURS_URL   # https://<url-du-backend>.onrender.com
+        sync: false
+      - key: SERVICE_ABONNEMENTS_URL    # https://<url-des-abonnements>.onrender.com
+        sync: false
