@@ -71,6 +71,8 @@ services:
       EMAIL_USER: ${EMAIL_USER:-}
       EMAIL_PASS: ${EMAIL_PASS:-}
       EMAIL_FROM: ${EMAIL_FROM:-Systeme de Billetterie <no-reply@billetterie.com>}
+      # Optionnel : certificat d'un antivirus qui inspecte aussi le SMTP (voir .env.example)
+      NODE_EXTRA_CA_CERTS: ${NODE_EXTRA_CA_CERTS:-}
     depends_on:
       mongo:
         condition: service_healthy
