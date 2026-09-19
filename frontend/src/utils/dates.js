@@ -18,7 +18,10 @@ export function formatDateTimeFR(date) {
 
 const MS_PAR_JOUR = 24 * 60 * 60 * 1000;
 
-const joursEntre = (a, b) => Math.round((new Date(`${b}T00:00:00Z`) - new Date(`${a}T00:00:00Z`)) / MS_PAR_JOUR);
+// Les dates peuvent arriver au format 'AAAA-MM-JJ' ou en horodatage ISO complet
+// (dateExpiration porte l'heure) : on ne garde que le jour, sinon le calcul donne NaN.
+const jourUTC = (d) => new Date(`${String(d).slice(0, 10)}T00:00:00Z`);
+const joursEntre = (a, b) => Math.round((jourUTC(b) - jourUTC(a)) / MS_PAR_JOUR);
 
 // Durée totale de validité (en jours) entre une date de début et
 // d'expiration au format 'AAAA-MM-JJ'.
