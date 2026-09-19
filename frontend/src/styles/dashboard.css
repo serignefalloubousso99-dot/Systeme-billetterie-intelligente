@@ -433,7 +433,17 @@ body {
   padding: 0.55rem;
 }
 
-@media (max-width: 900px) {
+/* Éléments réservés au mobile (tiroir de navigation) : masqués sur bureau,
+   affichés par le bloc "Mobile" en fin de fichier. */
+.mobile-topbar,
+.sidebar-backdrop,
+.sidebar-close-btn {
+  display: none;
+}
+
+/* Entre 769px et 900px (petite tablette) : sidebar en icônes. Sous 769px, c'est
+   le tiroir mobile qui prend le relais (bloc "Mobile" en fin de fichier). */
+@media (min-width: 769px) and (max-width: 900px) {
   .sidebar {
     width: 72px;
     min-width: 72px;
@@ -2183,3 +2193,401 @@ body {
 }
 
 
+
+.renew-card {
+  padding: 1.5rem 2rem;
+}
+
+/* ==========================================================================
+   Mobile (téléphone, <= 768px)
+   Placé en fin de fichier pour l'emporter sur les règles de base.
+   - la sidebar devient un tiroir ouvert par un bouton hamburger
+   - marges, titres et cartes resserrés
+   - champs à 16px (sinon iOS zoome sur la page au focus)
+   - cibles tactiles d'au moins 40px
+   ========================================================================== */
+@media (max-width: 768px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .app-shell {
+    flex-direction: column;
+  }
+
+  /* --- Barre du haut + tiroir de navigation --- */
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    min-height: calc(56px + env(safe-area-inset-top));
+    padding: env(safe-area-inset-top) calc(0.5rem + env(safe-area-inset-right)) 0 calc(0.5rem + env(safe-area-inset-left));
+    background-color: #1e1b4b;
+    color: #ffffff;
+  }
+
+  .mobile-topbar .nav-brand-icon {
+    color: #ffffff;
+  }
+
+  .mobile-topbar-title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+  }
+
+  .mobile-topbar-btn,
+  .sidebar-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: #ffffff;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .mobile-topbar-btn:active,
+  .sidebar-close-btn:active {
+    background-color: rgba(255, 255, 255, 0.14);
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    background-color: rgba(15, 23, 42, 0.55);
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    height: 100dvh;
+    width: min(300px, 85vw);
+    min-width: 0;
+    z-index: 120;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    transform: translateX(-100%);
+    visibility: hidden;
+    /* visibility retardée : le tiroir fermé ne reste pas atteignable au clavier */
+    transition: transform 0.25s ease, visibility 0s linear 0.25s;
+  }
+
+  .sidebar.drawer-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.25s ease, visibility 0s;
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .sidebar-collapse-btn,
+  .sidebar-search-hint kbd {
+    display: none;
+  }
+
+  /* La règle "max-width: 720px" de l'ancienne barre horizontale masque ces
+     textes ; dans le tiroir ils doivent rester visibles. */
+  .sidebar .nav-brand-text,
+  .sidebar .nav-user-name {
+    display: block;
+  }
+
+  .sidebar-close-btn {
+    width: 36px;
+    height: 36px;
+    color: #a5a2d4;
+  }
+
+  .sidebar-link {
+    min-height: 44px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .sidebar-search-hint,
+  .sidebar-theme-btn,
+  .sidebar-logout-btn {
+    min-height: 44px;
+  }
+
+  /* --- Contenu --- */
+  .app-content {
+    width: 100%;
+  }
+
+  .main-content {
+    padding: 1rem 1rem calc(1.5rem + env(safe-area-inset-bottom));
+    gap: 1.5rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .page-title-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+
+  .page-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title {
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .stats-card,
+  .table-card,
+  .plan-card,
+  .card {
+    padding: 1rem;
+  }
+
+  .stats-grid {
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .overview-card {
+    padding: 1.15rem 1.25rem;
+  }
+
+  .overview-card .metric-value {
+    font-size: 2rem;
+  }
+
+  .stats-card-header {
+    flex-wrap: wrap;
+  }
+
+  .dashboard-breakdown-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .renew-card {
+    padding: 1rem;
+  }
+
+  /* --- Filtres et champs --- */
+  .filter-toolbar {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .search-wrapper {
+    max-width: none;
+  }
+
+  .filter-dropdowns {
+    gap: 0.75rem;
+  }
+
+  .filter-dropdown-item {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+  }
+
+  .filter-select {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .choice-btn {
+    min-width: 0;
+  }
+
+  .search-input,
+  .form-input,
+  .form-select,
+  .filter-select,
+  .command-palette-input,
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .m3-btn-primary,
+  .m3-btn-secondary,
+  .trash-toggle-btn {
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* --- Tableaux : défilement horizontal fluide, cellules resserrées --- */
+  .table-responsive {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .user-table {
+    min-width: 600px;
+  }
+
+  .table-header-th,
+  .table-td,
+  .table-td-id,
+  .table-header-th-action,
+  .table-td-action {
+    padding: 0.75rem 0.6rem;
+  }
+
+  .table-header-th-checkbox,
+  .table-td-checkbox {
+    padding-left: 0.75rem;
+  }
+
+  .table-empty-cell {
+    padding: 2rem 1rem;
+  }
+
+  .loader-container {
+    padding: 2.5rem 1rem;
+  }
+
+  /* --- Titres (grille de cartes) --- */
+  .titres-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .titre-card {
+    padding: 0.85rem;
+  }
+
+  .titre-card-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* --- Modales : quasi plein écran, défilables --- */
+  .modal-overlay {
+    padding: 0.75rem;
+  }
+
+  .modal-panel {
+    max-height: calc(100vh - 1.5rem);
+    max-height: calc(100dvh - 1.5rem);
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    padding: 1rem 1.25rem 0.75rem;
+  }
+
+  .modal-form {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+    gap: 0.6rem;
+  }
+
+  .modal-footer > .btn-primary,
+  .modal-footer > .btn-secondary,
+  .modal-footer > button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .command-palette-overlay {
+    padding-top: 4rem;
+  }
+
+  .command-palette-list {
+    max-height: 55vh;
+  }
+
+  .bulk-action-bar {
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  /* --- Scan / billetterie --- */
+  .scan-stats-row {
+    gap: 0.5rem;
+  }
+
+  .scan-input-row {
+    flex-direction: column;
+  }
+
+  .scan-input-row .btn-primary {
+    width: 100%;
+  }
+
+  .qr-camera-view {
+    max-width: 100%;
+  }
+
+  .scan-result {
+    padding: 1.5rem 1rem;
+  }
+
+  .scan-result-icon {
+    font-size: 44px;
+  }
+
+  .scan-result-title {
+    font-size: 1.35rem;
+  }
+
+  .scan-result-details {
+    gap: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .qr-image {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+  }
+
+  .qr-image-frame {
+    padding: 0.75rem;
+  }
+
+  .bts-two-col-grid {
+    gap: 1rem;
+  }
+
+  /* 24 colonnes horaires ne tiennent pas sur 330px : on fait défiler. */
+  .bts-hourly-chart {
+    overflow-x: auto;
+  }
+
+  .bts-hourly-col {
+    min-width: 22px;
+  }
+}

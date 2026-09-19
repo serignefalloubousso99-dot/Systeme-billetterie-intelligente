@@ -30,6 +30,24 @@ const ROLE_RANK = { Client: 0, Agent: 1, Administrateur: 2 };
 
 const getStoredCollapsed = () => localStorage.getItem('sidebarCollapsed') === 'true';
 
+// Doit rester aligné avec le breakpoint mobile de dashboard.css (768px).
+const MOBILE_QUERY = '(max-width: 768px)';
+
+// Sous ce seuil, la sidebar devient un tiroir plein écran ouvert par un
+// bouton hamburger, au lieu d'une colonne d'icônes qui mange la largeur.
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_QUERY).matches);
+
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_QUERY);
+    const onChange = (e) => setIsMobile(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
+  return isMobile;
+}
+
 function DashboardLayout() {
   const location = useLocation();
   const currentPath = location.pathname;
@@ -38,6 +56,31 @@ function DashboardLayout() {
   const [user, setUser] = useState(null);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(getStoredCollapsed);
+  const isMobile = useIsMobile();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  // Le repli en icônes n'a pas de sens dans le tiroir mobile : il reste
+  // toujours déplié, avec les libellés complets.
+  const isCollapsed = collapsed && !isMobile;
+  const isDrawerOpen = drawerOpen && isMobile;
+
+  // Ferme le tiroir dès qu'on change de page.
+  useEffect(() => {
+    setDrawerOpen(false);
+  }, [currentPath]);
+
+  // Tiroir ouvert : on bloque le défilement de la page derrière, et Échap le ferme.
+  useEffect(() => {
+    if (!isDrawerOpen) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setDrawerOpen(false);
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isDrawerOpen]);
 
   const toggleCollapsed = () => {
     setCollapsed((prev) => {
@@ -123,7 +166,31 @@ function DashboardLayout() {
 
   return (
     <div className="app-shell">
-      <aside className={`sidebar${collapsed ? ' collapsed' : ''}`}>
+      <header className="mobile-topbar">
+        <button
+          type="button"
+          className="mobile-topbar-btn"
+          onClick={() => setDrawerOpen(true)}
+          aria-label="Ouvrir le menu"
+          aria-expanded={isDrawerOpen}
+        >
+          <span className="material-symbols-outlined">menu</span>
+        </button>
+        <span className="material-symbols-outlined nav-brand-icon">local_activity</span>
+        <span className="mobile-topbar-title">Billetterie Intelligente</span>
+        <button
+          type="button"
+          className="mobile-topbar-btn"
+          onClick={() => setPaletteOpen(true)}
+          aria-label="Rechercher"
+        >
+          <span className="material-symbols-outlined">search</span>
+        </button>
+      </header>
+
+      {isDrawerOpen && <div className="sidebar-backdrop" onClick={() => setDrawerOpen(false)} />}
+
+      <aside className={`sidebar${isCollapsed ? ' collapsed' : ''}${isDrawerOpen ? ' drawer-open' : ''}`}>
         <div className="sidebar-brand">
           <span className="material-symbols-outlined nav-brand-icon">local_activity</span>
           <span className="nav-brand-text">Billetterie Intelligente</span>
@@ -131,16 +198,24 @@ function DashboardLayout() {
             type="button"
             className="sidebar-collapse-btn"
             onClick={toggleCollapsed}
-            title={collapsed ? 'Déplier le menu' : 'Replier le menu'}
-            aria-label={collapsed ? 'Déplier le menu' : 'Replier le menu'}
+            title={isCollapsed ? 'Déplier le menu' : 'Replier le menu'}
+            aria-label={isCollapsed ? 'Déplier le menu' : 'Replier le menu'}
           >
             <span className="material-symbols-outlined">
-              {collapsed ? 'chevron_right' : 'chevron_left'}
+              {isCollapsed ? 'chevron_right' : 'chevron_left'}
             </span>
+          </button>
+          <button
+            type="button"
+            className="sidebar-close-btn"
+            onClick={() => setDrawerOpen(false)}
+            aria-label="Fermer le menu"
+          >
+            <span className="material-symbols-outlined">close</span>
           </button>
         </div>
 
-        <button type="button" className="sidebar-search-hint" onClick={() => setPaletteOpen(true)} title="Rechercher (Ctrl+K)">
+        <button type="button" className="sidebar-search-hint" onClick={() => { setDrawerOpen(false); setPaletteOpen(true); }} title="Rechercher (Ctrl+K)">
           <span className="material-symbols-outlined">search</span>
           <span className="sidebar-link-text">Rechercher</span>
           <kbd>Ctrl K</kbd>

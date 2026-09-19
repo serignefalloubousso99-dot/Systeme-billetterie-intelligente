@@ -178,7 +178,7 @@ function AbonnementDetail() {
       )}
 
       {isRenewing && (
-        <section className="table-card" style={{ padding: '1.5rem 2rem' }}>
+        <section className="table-card renew-card">
           <form onSubmit={handleRenouveler} className="modal-grid">
             <div className="form-group">
               <label className="form-label">Nouvelle date de début<span className="required-mark">*</span></label>
@@ -189,7 +189,7 @@ function AbonnementDetail() {
                 className="form-input"
               />
             </div>
-            <div className="form-group" style={{ justifyContent: 'flex-end', flexDirection: 'row', display: 'flex', gap: '0.75rem', alignItems: 'flex-end' }}>
+            <div className="form-group" style={{ justifyContent: 'flex-end', flexDirection: 'row', flexWrap: 'wrap', display: 'flex', gap: '0.75rem', alignItems: 'flex-end' }}>
               <button type="button" className="btn-secondary" onClick={() => setIsRenewing(false)}>
                 Annuler
               </button>
@@ -201,7 +201,7 @@ function AbonnementDetail() {
         </section>
       )}
 
-      <section className="table-card" style={{ padding: '1.5rem 2rem' }}>
+      <section className="table-card renew-card">
         <div className="modal-grid">
           <div className="form-group">
             <label className="form-label">Statut</label>

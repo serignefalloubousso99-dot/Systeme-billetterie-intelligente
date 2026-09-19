@@ -248,3 +248,23 @@
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+
+/* Mobile : 100vw inclut la barre de défilement et peut créer un défilement
+   horizontal ; on prend la largeur réelle et on resserre la carte. */
+@media (max-width: 480px) {
+  .login-container {
+    width: 100%;
+    padding: 1rem;
+    align-items: flex-start;
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+  }
+
+  .login-card {
+    padding: 1.75rem 1.25rem;
+    gap: 1.25rem;
+  }
+
+  .login-title {
+    font-size: 1.4rem;
+  }
+}
