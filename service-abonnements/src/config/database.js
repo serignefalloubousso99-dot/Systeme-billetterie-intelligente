@@ -37,6 +37,10 @@ export const connectDB = async () => {
 
     if (process.env.NODE_ENV !== 'production') {
       await sequelize.sync({ alter: true });
+    } else if (process.env.DB_SYNC === 'true') {
+      // Premier déploiement (base vide) : crée les tables sans modifier
+      // celles qui existent déjà.
+      await sequelize.sync();
     }
   } catch (error) {
     console.error(`Erreur de connexion MySQL : ${error.message}`);

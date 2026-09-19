@@ -1,0 +1,8 @@
+# Ne jamais copier dans l'image : dependances locales, secrets, historique, tests
+node_modules
+.env
+.git
+coverage
+npm-debug.log
+tests
+uploads

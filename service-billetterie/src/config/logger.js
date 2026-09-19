@@ -44,8 +44,10 @@ export const logger = winston.createLogger({
   ],
 });
 
-// En développement ou test, afficher aussi sur la console de manière lisible
-if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+// Afficher aussi sur la console (sauf en test) : en conteneur, la sortie
+// standard est le seul endroit où `docker logs` et la plateforme d'hébergement
+// lisent les journaux, y compris en production.
+if (process.env.NODE_ENV !== 'test') {
   logger.add(
     new winston.transports.Console({
       format: winston.format.combine(

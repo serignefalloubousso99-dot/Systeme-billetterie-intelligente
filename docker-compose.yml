@@ -1,0 +1,146 @@
+# Lance toute la solution : 3 bases de donnees, 3 APIs et le frontend.
+#   docker compose up --build      -> demarre tout
+#   docker compose down            -> arrete (les donnees sont conservees)
+#   docker compose down -v         -> arrete ET efface les donnees
+#
+# Les mots de passe ont une valeur par defaut pour un usage local ; pour les
+# changer, creer un fichier .env a cote de ce fichier (voir .env.example).
+
+services:
+  # ---------- Bases de donnees (une par microservice) ----------
+  mongo:
+    image: mongo:7
+    container_name: billetterie-mongo
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ping:1}).ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mysql:
+    image: mysql:8
+    container_name: billetterie-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-billetterie_mysql}
+      MYSQL_DATABASE: billetterie_abonnements
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: billetterie-postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-billetterie_pg}
+      POSTGRES_DB: billetterie_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d billetterie_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ---------- APIs ----------
+  backend:
+    build:
+      context: ./backend
+      args:
+        EXTRA_CA_B64: ${EXTRA_CA_B64:-}
+    container_name: billetterie-backend
+    ports:
+      - "5050:5050"
+    environment:
+      PORT: 5050
+      NODE_ENV: production
+      MONGO_URI: mongodb://mongo:27017/billetterie
+      JWT_SECRET: ${JWT_SECRET:-secret_dev_changez_moi}
+      JWT_EXPIRES_IN: 7d
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@billetterie.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Admin1234}
+      EMAIL_HOST: ${EMAIL_HOST:-smtp.gmail.com}
+      EMAIL_PORT: ${EMAIL_PORT:-587}
+      EMAIL_USER: ${EMAIL_USER:-}
+      EMAIL_PASS: ${EMAIL_PASS:-}
+      EMAIL_FROM: ${EMAIL_FROM:-Systeme de Billetterie <no-reply@billetterie.com>}
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  service-abonnements:
+    build:
+      context: ./service-abonnements
+      args:
+        EXTRA_CA_B64: ${EXTRA_CA_B64:-}
+    container_name: billetterie-abonnements
+    ports:
+      - "5065:5065"
+    environment:
+      PORT: 5065
+      NODE_ENV: production
+      DB_SYNC: "true"
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-billetterie_mysql}
+      DB_NAME: billetterie_abonnements
+      JWT_SECRET: ${JWT_SECRET:-secret_dev_changez_moi}
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  service-billetterie:
+    build:
+      context: ./service-billetterie
+      args:
+        EXTRA_CA_B64: ${EXTRA_CA_B64:-}
+    container_name: billetterie-billetterie
+    ports:
+      - "5070:5070"
+    environment:
+      PORT: 5070
+      NODE_ENV: production
+      DB_SYNC: "true"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-billetterie_pg}
+      DB_NAME: billetterie_db
+      JWT_SECRET: ${JWT_SECRET:-secret_dev_changez_moi}
+      # Entre conteneurs, on s'adresse aux autres services par leur nom
+      SERVICE_UTILISATEURS_URL: http://backend:5050
+      SERVICE_ABONNEMENTS_URL: http://service-abonnements:5065
+    depends_on:
+      postgres:
+        condition: service_healthy
+      backend:
+        condition: service_started
+      service-abonnements:
+        condition: service_started
+
+  # ---------- Interface ----------
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        EXTRA_CA_B64: ${EXTRA_CA_B64:-}
+    container_name: billetterie-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+      - service-abonnements
+      - service-billetterie
+
+volumes:
+  mongo_data:
+  mysql_data:
+  postgres_data:

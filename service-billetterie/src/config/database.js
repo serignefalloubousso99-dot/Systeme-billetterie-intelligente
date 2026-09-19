@@ -35,7 +35,9 @@ export const connectDB = async () => {
     await sequelize.authenticate();
     logger.info(`PostgreSQL connecté : ${nomBase} sur le port ${process.env.DB_PORT || 5432}`);
 
-    if (process.env.NODE_ENV !== 'production') {
+    // DB_SYNC=true crée les tables en production au premier déploiement (base
+    // vide) ; sans elle, la production ne touche jamais au schéma.
+    if (process.env.NODE_ENV !== 'production' || process.env.DB_SYNC === 'true') {
       // `alter: true` génère un ALTER TABLE invalide sur PostgreSQL pour la
       // colonne unique `codeUnique` (bug Sequelize/pg : "TYPE ... UNIQUE" au
       // lieu d'une contrainte séparée). On reste donc sur un sync simple ;
