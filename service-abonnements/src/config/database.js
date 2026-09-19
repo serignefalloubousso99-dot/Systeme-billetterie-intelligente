@@ -4,18 +4,22 @@ import { Sequelize } from 'sequelize';
 // Ce service ne touche JAMAIS à la base MongoDB du Service Utilisateurs :
 // il ne conserve que l'identifiant de l'utilisateur, jamais ses données
 // personnelles (voir PLAN-SERVICE-ABONNEMENTS.md §1).
+// Les valeurs saisies dans un tableau de bord (Render...) peuvent contenir un
+// espace ou un saut de ligne invisible : on les nettoie avant usage.
+const lire = (nom) => (process.env[nom] || '').trim();
+
 const nomBase =
   process.env.NODE_ENV === 'test'
-    ? process.env.DB_NAME_TEST || 'billetterie_abonnements_test'
-    : process.env.DB_NAME || 'billetterie_abonnements';
+    ? lire('DB_NAME_TEST') || 'billetterie_abonnements_test'
+    : lire('DB_NAME') || 'billetterie_abonnements';
 
 export const sequelize = new Sequelize(
   nomBase,
-  process.env.DB_USER || 'root',
-  process.env.DB_PASSWORD || '',
+  lire('DB_USER') || 'root',
+  lire('DB_PASSWORD'),
   {
-    host: process.env.DB_HOST || '127.0.0.1',
-    port: Number(process.env.DB_PORT) || 3306,
+    host: lire('DB_HOST') || '127.0.0.1',
+    port: Number(lire('DB_PORT')) || 3306,
     dialect: 'mysql',
     // Les requêtes SQL ne sont journalisées qu'en développement :
     // elles pollueraient la sortie des tests.
@@ -33,7 +37,7 @@ export const sequelize = new Sequelize(
         ? {
             ssl: {
               rejectUnauthorized: true,
-              ...(process.env.DB_SSL_CA ? { ca: process.env.DB_SSL_CA } : {}),
+              ...(lire('DB_SSL_CA') ? { ca: lire('DB_SSL_CA').replace(/\\n/g, '\n') } : {}),
             },
           }
         : {},
